@@ -1,37 +1,30 @@
 package com.ouyanglol.reactor.controller;
 
-import org.apache.logging.log4j.message.ObjectMessage;
+
+import com.ouyanglol.reactor.domain.user.repository.CityRepository;
+import com.ouyanglol.reactor.domain.user.valueobject.City;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static org.springframework.web.reactive.function.server.ServerResponse.ok;
+import reactor.core.publisher.Flux;
 
 /**
  * @author ouyangduning
  * @date 2020/10/25 22:31
  */
 @RestController
+@Slf4j
 public class TestController {
 
-    @GetMapping("/message")
-    public Mono<String> messageBaseResponse() {
-        return Mono.create(sink -> {
-            sink.success("ok");
-            sink.onDispose(()->{
-                System.out.println("222222222");
-            });
-            sink.onRequest(s->{
-                System.out.println("r");
-            });
-            sink.onCancel(()->{
-                System.out.println("11111");
-            });
-        });
+    @Autowired
+    private CityRepository cityRepository;
+
+    @GetMapping(value = "/message", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    public Flux<City> messageBaseResponse() {
+        Flux<City> by = cityRepository.findBy();
+        return by.doOnNext(s->log.info("{}",s));
     }
 
 }

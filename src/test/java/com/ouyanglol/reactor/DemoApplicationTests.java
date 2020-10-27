@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootTest
 @Slf4j
-class DemoApplicationTests {
+public class DemoApplicationTests {
 
     @Test
     void contextLoads() throws InterruptedException {
