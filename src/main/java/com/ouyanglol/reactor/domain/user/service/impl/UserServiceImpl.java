@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Flux<User> findAll() {
-        return userRepository.findBy();
+        return userRepository.findWithName("ok");
     }
 
     @Override

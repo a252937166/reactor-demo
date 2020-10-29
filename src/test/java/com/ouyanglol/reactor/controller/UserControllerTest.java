@@ -2,8 +2,10 @@ package com.ouyanglol.reactor.controller;
 
 import com.ouyanglol.reactor.DemoApplicationTests;
 import com.ouyanglol.reactor.domain.user.entity.User;
+import com.ouyanglol.reactor.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -18,6 +20,8 @@ import java.util.UUID;
 @Slf4j
 class UserControllerTest extends DemoApplicationTests {
 
+    @Autowired
+    private UserService userService;
 
     @Test
     void save() {
@@ -35,14 +39,18 @@ class UserControllerTest extends DemoApplicationTests {
 
     @Test
     void all() {
-        WebClient webClient = WebClient.create("http://localhost:8080");
-        webClient
-                .get().uri("/user/all")
-                .accept(MediaType.APPLICATION_STREAM_JSON)    // 1
-                .retrieve()
-                .bodyToFlux(User.class)
-                .log()  // 2
-                .take(10)   // 3
-                .blockLast();
+//        WebClient webClient = WebClient.create("http://localhost:8080");
+//        webClient
+//                .get().uri("/user/all")
+//                .accept(MediaType.APPLICATION_STREAM_JSON)    // 1
+//                .retrieve()
+//                .bodyToFlux(User.class)
+//                .log()  // 2
+//                .take(10)   // 3
+//                .blockLast();
+        userService.findAll().doOnNext(s->log.info("{}",s)).subscribe();
+        while (true){
+
+        }
     }
 }

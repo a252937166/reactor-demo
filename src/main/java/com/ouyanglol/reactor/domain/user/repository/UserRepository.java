@@ -24,6 +24,7 @@ public interface UserRepository extends ReactiveCrudRepository<User, String> {
     Mono<Long> deleteByUsername(String username);
 
     @Query("{'name':?0}")
+    @Tailable
     Flux<User> findWithName(String name);
 
 }
